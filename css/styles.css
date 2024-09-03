@@ -4886,6 +4886,12 @@ body.search-is-visible .s-header__search-inner {
 /* entry featured media
  */
 .entry__media {
+    /* ADDED BY ME */
+    display: flex;
+    /* ADDED BY ME */
+    justify-content: center;
+    /* ADDED BY ME */
+    align-items: center;
     margin-bottom: var(--vspace-2);
 }
 
