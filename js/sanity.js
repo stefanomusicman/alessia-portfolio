@@ -12,7 +12,8 @@ async function getCategories() {
         const request = `
             *[_type == "category"]{
                 title,
-                description
+                description,
+                categoryImage
             }
         `;
 

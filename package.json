@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sanity/client": "^6.27.2"
+    "@sanity/client": "^6.27.2",
+    "@sanity/image-url": "^1.1.0"
   },
   "devDependencies": {
     "vite": "^6.1.0"
