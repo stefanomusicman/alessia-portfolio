@@ -3,22 +3,23 @@ import urlFor from "./sanityImage.js";
 
 async function fetchAndLogCategories() {
     const categories = await getCategories();
+    console.log('categories: ', categories)
     return categories;
 }
 
 function generateCategoryHTML(category) {
-    const imageUrl = urlFor(category.categoryImage)
-        .width(600) // Set the width of the image
-        .url(); // Get the URL of the image
+    const imageUrl = category.categoryImage
+        ? urlFor(category.categoryImage).width(600).url()
+        : 'images/thumbs/masonry/statue-600.jpg'; // Fallback image
 
-    const imageUrl2x = urlFor(category.categoryImage)
-        .width(1200) // Set the width for the 2x version
-        .url();
+    const imageUrl2x = category.categoryImage
+        ? urlFor(category.categoryImage).width(1200).url()
+        : 'images/thumbs/masonry/statue-1200.jpg 2x';
 
     return `
         <article class="brick entry" data-animate-el>
             <div class="entry__thumb">
-                <a href="single-standard.html" class="thumb-link">
+                <a href="${category.title.toLowerCase().trim()}.html" class="thumb-link">
                     <img src="${imageUrl}"
                         srcset="${imageUrl} 1x, ${imageUrl2x} 2x"
                         alt="${category.title}">
@@ -57,4 +58,6 @@ async function renderCategories() {
 }
 
 // Call the renderCategories function to render the categories
-renderCategories();
+document.addEventListener('DOMContentLoaded', () => {
+    renderCategories();
+});

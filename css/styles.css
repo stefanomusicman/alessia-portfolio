@@ -4811,7 +4811,7 @@ body.search-is-visible .s-header__search-inner {
     --width-content-blog: 1200px;
     --content-primary-padding: 15rem;
     max-width: var(--width-content-blog);
-    padding-bottom: var(--vspace-5);
+    /* padding-bottom: var(--vspace-5); */
 }
 
 .entry-wrap .content-primary,
