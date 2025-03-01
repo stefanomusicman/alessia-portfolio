@@ -24,4 +24,27 @@ async function getCategories() {
     }
 }
 
-export { client, getCategories };
+async function getArticlesByCategory(categoryName) {
+    try {
+        const request = `
+            *[_type == "post" && categories[]->title match "${categoryName}"] {
+                title,
+                slug{current},
+                mainImage,
+                secondaryImage,
+                categories[]->{
+                    title
+                },
+                "bodyText": body[].children[].text,
+                originalArticle
+            }
+        `;
+
+        const articles = await client.fetch(request);
+        return articles;
+    } catch (error) {
+        console.error(`ERROR FETCHING ARTICLES: `, error);
+    }
+}
+
+export { client, getCategories, getArticlesByCategory };
