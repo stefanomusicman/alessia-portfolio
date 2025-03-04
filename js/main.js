@@ -3,27 +3,27 @@
  *
  * ------------------------------------------------------------------- */
 
-(function(html) {
+(function (html) {
 
     'use strict';
 
 
-   /* preloader
-    * -------------------------------------------------- */
-    const ssPreloader = function() {
+    /* preloader
+     * -------------------------------------------------- */
+    const ssPreloader = function () {
 
         const siteBody = document.querySelector('body');
         const preloader = document.querySelector('#preloader');
         if (!preloader) return;
 
         html.classList.add('ss-preload');
-        
-        window.addEventListener('load', function() {
+
+        window.addEventListener('load', function () {
             html.classList.remove('ss-preload');
             html.classList.add('ss-loaded');
 
             preloader.addEventListener('transitionend', function afterTransition(e) {
-                if (e.target.matches('#preloader'))  {
+                if (e.target.matches('#preloader')) {
                     // siteBody.classList.add('ss-show');
                     e.target.style.display = 'none';
                     preloader.removeEventListener(e.type, afterTransition);
@@ -34,9 +34,9 @@
     }; // end ssPreloader
 
 
-   /* mobile menu
-    * ---------------------------------------------------- */ 
-    const ssMobileMenu = function() {
+    /* mobile menu
+     * ---------------------------------------------------- */
+    const ssMobileMenu = function () {
 
         const toggleButton = document.querySelector('.s-header__menu-toggle');
         const mainNavWrap = document.querySelector('.s-header__nav-wrap');
@@ -46,7 +46,7 @@
 
         if (!(toggleButton && mainNavWrap)) return;
 
-        toggleButton.addEventListener('click', function(e) {
+        toggleButton.addEventListener('click', function (e) {
             e.preventDefault();
             toggleButton.classList.toggle('is-clicked');
             siteBody.classList.toggle('menu-is-open');
@@ -56,7 +56,7 @@
 
         // open (or close) submenu items in mobile view menu. 
         // close all the other open submenu items.
-        mainNav.addEventListener('click', function(e) {
+        mainNav.addEventListener('click', function (e) {
 
             //check if the right element clicked
             if (!e.target.closest('.has-children')) return;
@@ -65,7 +65,7 @@
                 //check if element contains active class
                 if (!e.target.closest('.has-children').classList.contains('sub-menu-is-open')) {
 
-                    parentMenus.forEach(function(current) {
+                    parentMenus.forEach(function (current) {
                         current.classList.remove('sub-menu-is-open');
                     });
 
@@ -80,7 +80,7 @@
             }
         });
 
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
 
             // above 1200px
             if (window.matchMedia('(min-width: 1201px)').matches) {
@@ -88,7 +88,7 @@
                 if (toggleButton.classList.contains('is-clicked')) toggleButton.classList.remove('is-clicked');
                 if (!scrollLock.getScrollState()) scrollLock.enablePageScroll();
 
-                parentMenus.forEach(function(current) {
+                parentMenus.forEach(function (current) {
                     current.classList.remove('sub-menu-is-open');
                 });
             }
@@ -99,7 +99,7 @@
 
     /* search
     * ------------------------------------------------------ */
-    const ssSearch = function() {
+    const ssSearch = function () {
 
         const searchWrap = document.querySelector('.s-header__search');
         const searchTrigger = document.querySelector('.s-header__search-trigger');
@@ -110,7 +110,7 @@
         const closeSearch = searchWrap.querySelector('.s-header__search-close');
         const siteBody = document.querySelector('body');
 
-        searchTrigger.addEventListener('click', function(e) {
+        searchTrigger.addEventListener('click', function (e) {
 
             e.preventDefault();
             e.stopPropagation();
@@ -118,19 +118,19 @@
 
             scrollLock.getScrollState() ? scrollLock.disablePageScroll(searchWrap) : scrollLock.enablePageScroll(searchWrap);
 
-            setTimeout(function(){
+            setTimeout(function () {
                 searchWrap.querySelector('.s-header__search-field').focus();
             }, 100);
         });
 
-        closeSearch.addEventListener('click', function(e) {
+        closeSearch.addEventListener('click', function (e) {
 
             e.stopPropagation();
 
-            if(siteBody.classList.contains('search-is-visible')) {
+            if (siteBody.classList.contains('search-is-visible')) {
 
                 siteBody.classList.remove('search-is-visible');
-                setTimeout(function(){
+                setTimeout(function () {
                     searchWrap.querySelector('.s-header__search-field').blur();
                 }, 100);
 
@@ -138,13 +138,13 @@
             }
         });
 
-        searchWrap.addEventListener('click', function(e) {
-            if( !(e.target.matches('.s-header__search-inner')) ) {
+        searchWrap.addEventListener('click', function (e) {
+            if (!(e.target.matches('.s-header__search-inner'))) {
                 closeSearch.dispatchEvent(new Event('click'));
             }
         });
 
-        searchField.addEventListener('click', function(e) {
+        searchField.addEventListener('click', function (e) {
             e.stopPropagation();
         })
 
@@ -156,12 +156,12 @@
 
     /* masonry
     * ------------------------------------------------------ */
-    const ssMasonry = function() {
+    const ssMasonry = function () {
 
         const containerBricks = document.querySelector('.bricks-wrapper');
         if (!containerBricks) return;
 
-        imagesLoaded(containerBricks, function() {
+        imagesLoaded(containerBricks, function () {
 
             const msnry = new Masonry(containerBricks, {
                 itemSelector: '.entry',
@@ -175,9 +175,9 @@
     }; // end ssMasonry
 
 
-   /* animate masonry elements if in viewport
-    * ------------------------------------------------------ */
-    const ssAnimateBricks = function() {
+    /* animate masonry elements if in viewport
+     * ------------------------------------------------------ */
+    const ssAnimateBricks = function () {
 
         const animateBlocks = document.querySelectorAll('[data-animate-block]');
         const pageWrap = document.querySelector('.s-pagewrap');
@@ -189,7 +189,7 @@
         }
         // animate on load
         else {
-            window.addEventListener('load', function(){
+            window.addEventListener('load', function () {
                 doAnimate(animateBlocks[0]);
             });
         }
@@ -197,18 +197,18 @@
         // do animate
         function doAnimate(current) {
             const els = current.querySelectorAll('[data-animate-el]');
-            const p = new Promise(function(resolve, reject) {
+            const p = new Promise(function (resolve, reject) {
 
-                els.forEach(function(el, index, array) {
+                els.forEach(function (el, index, array) {
                     const dly = index * 200;
 
                     el.style.setProperty('--transition-delay', dly + 'ms');
-                    if (index === array.length -1) resolve();
+                    if (index === array.length - 1) resolve();
                 });
 
             });
-            
-            p.then(function() {
+
+            p.then(function () {
                 current.classList.add('ss-animated');
             });
         }
@@ -218,7 +218,7 @@
 
             let scrollY = window.pageYOffset;
 
-            animateBlocks.forEach(function(current) {
+            animateBlocks.forEach(function (current) {
 
                 const viewportHeight = window.innerHeight;
                 const triggerTop = (current.offsetTop + (viewportHeight * .1)) - viewportHeight;
@@ -237,9 +237,9 @@
     }; // end ssAnimateOnScroll
 
 
-   /* swiper
-    * ------------------------------------------------------ */ 
-    const ssSwiper = function() {
+    /* swiper
+     * ------------------------------------------------------ */
+    const ssSwiper = function () {
 
         const mySwiper = new Swiper('.swiper-container', {
 
@@ -248,7 +248,7 @@
             speed: 1000,
             pagination: {
                 el: '.swiper-pagination',
-                clickable: true, 
+                clickable: true,
                 renderBullet: function (index, className) {
                     return '<span class="' + className + '">' + (index + 1) + '</span>';
                 }
@@ -259,20 +259,20 @@
     }; // end ssSwiper
 
 
-   /* alert boxes
-    * ------------------------------------------------------ */
-    const ssAlertBoxes = function() {
+    /* alert boxes
+     * ------------------------------------------------------ */
+    const ssAlertBoxes = function () {
 
         const boxes = document.querySelectorAll('.alert-box');
-  
-        boxes.forEach(function(box){
 
-            box.addEventListener('click', function(event) {
+        boxes.forEach(function (box) {
+
+            box.addEventListener('click', function (event) {
                 if (event.target.matches('.alert-box__close')) {
                     event.stopPropagation();
                     event.target.parentElement.classList.add('hideit');
 
-                    setTimeout(function(){
+                    setTimeout(function () {
                         box.style.display = 'none';
                     }, 500)
                 }
@@ -284,7 +284,7 @@
 
     /* Back to Top
     * ------------------------------------------------------ */
-    const ssBackToTop = function() {
+    const ssBackToTop = function () {
 
         const pxShow = 900;
         const goTopButton = document.querySelector(".ss-go-top");
@@ -294,9 +294,9 @@
         // Show or hide the button
         if (window.scrollY >= pxShow) goTopButton.classList.add("link-is-visible");
 
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY >= pxShow) {
-                if(!goTopButton.classList.contains('link-is-visible')) goTopButton.classList.add("link-is-visible")
+                if (!goTopButton.classList.contains('link-is-visible')) goTopButton.classList.add("link-is-visible")
             } else {
                 goTopButton.classList.remove("link-is-visible")
             }
@@ -305,9 +305,9 @@
     }; // end ssBackToTop
 
 
-   /* smoothscroll
-    * ------------------------------------------------------ */
-    const ssMoveTo = function(){
+    /* smoothscroll
+     * ------------------------------------------------------ */
+    const ssMoveTo = function () {
 
         const easeFunctions = {
             easeInQuad: function (t, b, c, d) {
@@ -316,24 +316,24 @@
             },
             easeOutQuad: function (t, b, c, d) {
                 t /= d;
-                return -c * t* (t - 2) + b;
+                return -c * t * (t - 2) + b;
             },
             easeInOutQuad: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
                 t--;
-                return -c/2 * (t*(t-2) - 1) + b;
+                return -c / 2 * (t * (t - 2) - 1) + b;
             },
             easeInOutCubic: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
                 t -= 2;
-                return c/2*(t*t*t + 2) + b;
+                return c / 2 * (t * t * t + 2) + b;
             }
         }
 
         const triggers = document.querySelectorAll('.smoothscroll');
-        
+
         const moveTo = new MoveTo({
             tolerance: 0,
             duration: 1200,
@@ -341,15 +341,15 @@
             container: window
         }, easeFunctions);
 
-        triggers.forEach(function(trigger) {
+        triggers.forEach(function (trigger) {
             moveTo.registerTrigger(trigger);
         });
 
     }; // end ssMoveTo
 
 
-   /* Initialize
-    * ------------------------------------------------------ */
+    /* Initialize
+     * ------------------------------------------------------ */
     (function ssInit() {
 
         ssPreloader();
