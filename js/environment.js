@@ -21,7 +21,7 @@ function generateArticleHTML(article) {
     return `
         <article class="brick entry" data-animate-el>
             <div class="entry__thumb">
-                <a href="${article.title.toLowerCase().trim()}.html" class="thumb-link">
+                <a href="single-standard.html" data-article='${JSON.stringify(article)}' class="thumb-link">
                     <img src="${imageUrl}"
                         srcset="${imageUrl} 1x, ${imageUrl2x} 2x"
                         alt="${article.title}">
@@ -29,9 +29,13 @@ function generateArticleHTML(article) {
             </div>
             <div class="entry__text">
                 <div class="entry__header">
-                    <h1 class="entry__title"><a href="single-standard.html">${article.title}</a></h1>
+                    <h1 class="entry__title">
+                        <a href="single-standard.html" data-article='${JSON.stringify(article)}'>
+                            ${article.title}
+                        </a>
+                    </h1>
                 </div>
-                <a class="entry__more-link" href="#0">See Article</a>
+                <a class="entry__more-link" href="single-standard.html" data-article='${JSON.stringify(article)}'>See Article</a>
             </div>
         </article>
     `;
@@ -49,9 +53,34 @@ async function renderArticles() {
 
         // Insert the generated HTML into the container
         bricksWrapper.innerHTML = html;
+
+        // Add click event listeners to article links
+        setupArticleClickHandlers();
     } else {
         bricksWrapper.innerHTML = '<p>No articles found.</p>';
     }
+}
+
+// Function to handle article clicks
+function setupArticleClickHandlers() {
+    const articleLinks = document.querySelectorAll('a[data-article]');
+
+    articleLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            // Prevent the default behavior (navigating to the link)
+            event.preventDefault();
+
+            // Retrieve the article object from the data attribute
+            const articleData = link.getAttribute('data-article');
+            const article = JSON.parse(articleData);
+
+            // Store the article object in localStorage
+            sessionStorage.setItem('selectedArticle', JSON.stringify(article));
+
+            // Navigate to the new page
+            window.location.href = link.href;
+        });
+    });
 }
 
 renderArticles()

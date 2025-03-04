@@ -35,7 +35,7 @@ async function getArticlesByCategory(categoryName) {
                 categories[]->{
                     title
                 },
-                "bodyText": body[].children[].text,
+                body,
                 originalArticle
             }
         `;
