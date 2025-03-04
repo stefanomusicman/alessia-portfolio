@@ -1,3 +1,4 @@
+import generateFooter from "./components/footer.js";
 import { getCategories } from "./sanity.js";
 import urlFor from "./sanityImage.js";
 
@@ -56,6 +57,9 @@ async function renderCategories() {
         bricksWrapper.innerHTML = '<p>No categories found.</p>';
     }
 }
+
+const footer = document.querySelector('.s-footer');
+footer.innerHTML = generateFooter();
 
 // Call the renderCategories function to render the categories
 document.addEventListener('DOMContentLoaded', () => {

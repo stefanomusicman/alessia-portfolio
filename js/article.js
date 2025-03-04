@@ -1,4 +1,5 @@
 import urlFor from "./sanityImage";
+import generateFooter from "./components/footer";
 
 // Retrieve the article object from localStorage
 const articleData = sessionStorage.getItem('selectedArticle');
@@ -11,6 +12,7 @@ if (articleData) {
 const mainTitle = document.querySelector('.entry__title');
 const mainImage = document.querySelector('.featured-image');
 const categories = document.querySelector('.cat-links');
+const footer = document.querySelector('.s-footer');
 
 const mainImageUrl = article.mainImage ? urlFor(article.mainImage).width(1200).url() : 'images/sample-1200.jpg 1200w';
 const mainImageUrl2x = article.mainImage ? urlFor(article.mainImage).width(2400).url() : 'images/sample-2400.jpg 2400w';
@@ -84,5 +86,6 @@ function generateArticleContent() {
 
 generateCategoryString();
 generateArticleContent();
+footer.innerHTML = generateFooter()
 
 console.log('ARTICLE VARIABLE: ', article);
